@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "rushplay/proto/userpb";
+
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+    rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+    rpc LoginUser(LoginRequest) returns (LoginResponse);
+}
+
+message User {
+  uint64 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  float balance = 5;
+  string role = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message RegisterUserRequest {
+  string first_name = 1;
+  string last_name = 2;
+  string email = 3;
+  string password = 4;
+}
+
+message RegisterUserResponse {
+  User user = 1;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+}
