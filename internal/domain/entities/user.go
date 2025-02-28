@@ -9,19 +9,11 @@ type User struct {
 	Email        string    `gorm:"uniqueIndex;type:varchar(255);not null"`
 	PasswordHash string    `gorm:"column:password_hash;type:varchar(255);not null"`
 	Balance      float64   `gorm:"type:decimal(18,2);default:0"`
-	Role         string    `gorm:"type:varchar(20);not null;default:'player'"` // "player", "admin"
+	Role         string    `gorm:"type:varchar(20);not null;default:'player'"`
 	CreatedAt    time.Time `gorm:"autoCreateTime"`
 	UpdatedAt    time.Time `gorm:"autoUpdateTime"`
 }
 
 func (User) TableName() string {
 	return "users"
-}
-
-type UserRepository interface {
-	CreateUser(user *User) error
-	GetUserByID(id uint) (*User, error)
-	GetUserByEmail(email string) (*User, error)
-	UpdateUser(user *User) error
-	DeleteUser(id uint) error
 }
