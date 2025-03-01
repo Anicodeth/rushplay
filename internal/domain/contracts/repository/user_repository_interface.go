@@ -1,6 +1,6 @@
 package domain
 
-type UserRepository interface {
+type IUserRepository interface {
 	CreateUser(user *User) error
 	GetUserByID(id uint) (*User, error)
 	GetUserByEmail(email string) (*User, error)
