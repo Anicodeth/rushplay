@@ -5,11 +5,11 @@ import (
 
 	"gorm.io/gorm"
 
-	"rushplay/internal/domain"
+	entities "rushplay/internal/domain/entities"
 )
 
 func Migrate(db *gorm.DB) error {
-	err := db.AutoMigrate(&domain.User{})
+	err := db.AutoMigrate(&entities.User{})
 
 	if err != nil {
 		log.Printf("Error migrating database: %v \n", err)
