@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package user;
 
-option go_package = "rushplay/proto/userpb";
+option go_package = "proto/userpb";
 
 import "google/protobuf/timestamp.proto";
 
@@ -16,7 +16,7 @@ message User {
   string first_name = 2;
   string last_name = 3;
   string email = 4;
-  float balance = 5;
+  double balance = 5;
   string role = 6;
   google.protobuf.Timestamp created_at = 7;
   google.protobuf.Timestamp updated_at = 8;
