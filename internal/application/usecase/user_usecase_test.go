@@ -7,6 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type MockUserRepository struct {
@@ -57,7 +58,11 @@ func TestRegisterUser_Success(t *testing.T) {
 	err := useCase.RegisterUser(user)
 
 	assert.NoError(t, err)
-	assert.Equal(t, "hashed_password123", user.PasswordHash)
+	assert.NotEqual(t, "password123", user.PasswordHash)
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte("password123"))
+
+	assert.NoError(t, err)
 
 	mockRepo.AssertExpectations(t)
 }
