@@ -20,6 +20,7 @@ func (u *UserUseCase) RegisterUser(user *entities.User) error {
 		return errors.New("email already in use")
 	}
 
+	//TODO Replace with a valid hashing method
 	user.PasswordHash = "hashed_" + user.PasswordHash
 
 	return u.userRepo.CreateUser(user)
