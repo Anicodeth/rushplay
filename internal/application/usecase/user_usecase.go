@@ -2,11 +2,14 @@ package application
 
 import (
 	"errors"
+	"fmt"
 	"os"
 
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 
 	irepositories "rushplay/internal/domain/contracts/repository"
+	iusecases "rushplay/internal/domain/contracts/usecase"
 	entities "rushplay/internal/domain/entities"
 )
 
@@ -15,7 +18,7 @@ type UserUseCase struct {
 	secretKey string
 }
 
-func NewUserUseCase(userRepo irepositories.IUserRepository) *UserUseCase {
+func NewUserUseCase(userRepo irepositories.IUserRepository) iusecases.IUserUseCase {
 	var secretKey string = os.Getenv("SECRET_KEY")
 
 	return &UserUseCase{
@@ -25,14 +28,17 @@ func NewUserUseCase(userRepo irepositories.IUserRepository) *UserUseCase {
 }
 
 func (u *UserUseCase) RegisterUser(user *entities.User) error {
-	existingUser, _ := u.userRepo.GetUserByEmail(user.Email)
+	_, err := u.userRepo.GetUserByEmail(user.Email)
 
-	if existingUser != nil {
+	if err == nil {
 		return errors.New("email already in use")
 	}
 
-	hashedPassword, err := hashPassword(user.PasswordHash)
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return fmt.Errorf("error checking existing user: %w", err)
+	}
 
+	hashedPassword, err := hashPassword(user.PasswordHash)
 	if err != nil {
 		return errors.New("failed to hash password")
 	}

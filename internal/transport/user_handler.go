@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"rushplay/api/generated/proto/userpb"
-	"rushplay/internal/application/usecase"
+	iusecases "rushplay/internal/domain/contracts/usecase"
 	entities "rushplay/internal/domain/entities"
 	"time"
 
@@ -13,10 +13,10 @@ import (
 
 type UserHandler struct {
 	userpb.UnimplementedUserServiceServer
-	useCase *application.UserUseCase
+	useCase iusecases.IUserUseCase
 }
 
-func NewUserHandler(useCase *application.UserUseCase) *UserHandler {
+func NewUserHandler(useCase iusecases.IUserUseCase) *UserHandler {
 	return &UserHandler{useCase: useCase}
 }
 

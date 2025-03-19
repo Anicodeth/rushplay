@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 type MockUserRepository struct {
@@ -52,7 +53,7 @@ func TestRegisterUser_Success(t *testing.T) {
 		PasswordHash: "password123",
 	}
 
-	mockRepo.On("GetUserByEmail", user.Email).Return(nil, nil)
+	mockRepo.On("GetUserByEmail", user.Email).Return(nil, gorm.ErrRecordNotFound)
 	mockRepo.On("CreateUser", mock.Anything).Return(nil)
 
 	err := useCase.RegisterUser(user)

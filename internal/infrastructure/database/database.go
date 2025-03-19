@@ -26,7 +26,7 @@ func LoadDatabaseConfig() DatabaseConfig {
 		Port:     getEnv("DB_PORT", "5432"),
 		User:     getEnv("DB_USER", "postgres"),
 		Password: getEnv("DB_PASSWORD", "00000000"),
-		DBName:   getEnv("DB_NAME", "postgres"),
+		DBName:   getEnv("DB_NAME", "rushplay"),
 		SSLMode:  getEnv("DB_SSL_MODE", "disable"),
 	}
 }

@@ -1,8 +1,8 @@
 package infrastructure
 
 import (
-	entities "rushplay/internal/domain/entities"
 	irepositories "rushplay/internal/domain/contracts/repository"
+	entities "rushplay/internal/domain/entities"
 
 	"gorm.io/gorm"
 )
