@@ -12,6 +12,9 @@ type User struct {
 	Role         string    `gorm:"type:varchar(20);not null;default:'player'"`
 	CreatedAt    time.Time `gorm:"autoCreateTime"`
 	UpdatedAt    time.Time `gorm:"autoUpdateTime"`
+
+	Bets         []Bet         `gorm:"foreignKey:UserID"`
+	Transactions []Transaction `gorm:"foreignKey:UserID"`
 }
 
 func (User) TableName() string {
