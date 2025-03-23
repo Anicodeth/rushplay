@@ -10,6 +10,7 @@ const (
 	GameTypeRoulette  GameType = "ROULETTE"
 	GameTypePoker     GameType = "POKER"
 	GameTypeCraps     GameType = "CRAPS"
+	GameTypePlinko    GameType = "PLINKO"
 	GameTypeBaccarat  GameType = "BACCARAT"
 )
 
@@ -31,8 +32,6 @@ type Game struct {
 	Description string     `gorm:"type:text"`
 	CreatedAt   time.Time  `gorm:"autoCreateTime"`
 	UpdatedAt   time.Time  `gorm:"autoUpdateTime"`
-
-	Bets []*Bet `gorm:"foreignKey:GameID;references:ID"`
 }
 
 func (Game) TableName() string {
