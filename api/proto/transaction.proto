@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package transaction;
+
+option go_package = "proto/transactionpb";
+
+import "google/protobuf/timestamp.proto";
+
+service TransactionService {
+    rpc CreateTransaction(CreateTransactionRequest) returns (CreateTransactionResponse);
+    rpc GetTransaction(GetTransactionRequest) returns (GetTransactionResponse);
+    rpc GetTransactions(GetTransactionsRequest) returns (GetTransactionsResponse);
+    rpc GetTransactionsByUserID(GetTransactionsByUserIDRequest) returns (GetTransactionsByUserIDResponse);
+    rpc GetTransactionsByBetID(GetTransactionsByBetIDRequest) returns (GetTransactionsByBetIDResponse);
+    rpc UpdateTransactionStatus(UpdateTransactionStatusRequest) returns (UpdateTransactionStatusResponse);
+    rpc GetUserTransactionHistory(GetUserTransactionHistoryRequest) returns (GetUserTransactionHistoryResponse);
+    rpc GetTransactionByReferenceID(GetTransactionByReferenceIDRequest) returns (GetTransactionByReferenceIDResponse);
+    rpc ProcessDeposit(ProcessDepositRequest) returns (ProcessDepositResponse);
+    rpc ProcessWithdrawal(ProcessWithdrawalRequest) returns (ProcessWithdrawalResponse);
+}
+
+message Transaction {
+    uint64 id = 1;
+    uint64 user_id = 2;
+    optional uint64 bet_id = 3;
+    double amount = 4;
+    string type = 5;
+    string status = 6;
+    string reference_id = 7;
+    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
+}
+
+message CreateTransactionRequest {
+    uint64 user_id = 1;
+    optional uint64 bet_id = 2;
+    double amount = 3;
+    string type = 4;
+}
+
+message CreateTransactionResponse {
+    Transaction transaction = 1;
+}
+
+message GetTransactionRequest {
+    uint64 id = 1;
+}
+
+message GetTransactionResponse {
+    Transaction transaction = 1;
+}
+
+message GetTransactionsRequest {}
+
+message GetTransactionsResponse {
+    repeated Transaction transactions = 1;
+}
+
+message GetTransactionsByUserIDRequest {
+    uint64 user_id = 1;
+}
+
+message GetTransactionsByUserIDResponse {
+    repeated Transaction transactions = 1;
+}
+
+message GetTransactionsByBetIDRequest {
+    uint64 bet_id = 1;
+}
+
+message GetTransactionsByBetIDResponse {
+    repeated Transaction transactions = 1;
+}
+
+message UpdateTransactionStatusRequest {
+    uint64 id = 1;
+    string status = 2;
+}
+
+message UpdateTransactionStatusResponse {
+    Transaction transaction = 1;
+}
+
+message GetUserTransactionHistoryRequest {
+    uint64 user_id = 1;
+    int32 limit = 2;
+    int32 offset = 3;
+}
+
+message GetUserTransactionHistoryResponse {
+    repeated Transaction transactions = 1;
+}
+
+message GetTransactionByReferenceIDRequest {
+    string reference_id = 1;
+}
+
+message GetTransactionByReferenceIDResponse {
+    Transaction transaction = 1;
+}
+
+message ProcessDepositRequest {
+    uint64 id = 1;
+}
+
+message ProcessDepositResponse {
+    Transaction transaction = 1;
+}
+
+message ProcessWithdrawalRequest {
+    uint64 id = 1;
+}
+
+message ProcessWithdrawalResponse {
+    Transaction transaction = 1;
+} 

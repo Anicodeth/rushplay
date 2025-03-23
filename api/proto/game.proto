@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package game;
+
+option go_package = "proto/gamepb";
+
+import "google/protobuf/timestamp.proto";
+
+service GameService {
+    rpc CreateGame(CreateGameRequest) returns (CreateGameResponse);
+    rpc GetGame(GetGameRequest) returns (GetGameResponse);
+    rpc GetGames(GetGamesRequest) returns (GetGamesResponse);
+    rpc GetGamesByType(GetGamesByTypeRequest) returns (GetGamesByTypeResponse);
+    rpc GetActiveGames(GetActiveGamesRequest) returns (GetActiveGamesResponse);
+    rpc UpdateGame(UpdateGameRequest) returns (UpdateGameResponse);
+    rpc DeleteGame(DeleteGameRequest) returns (DeleteGameResponse);
+    rpc UpdateGameStatus(UpdateGameStatusRequest) returns (UpdateGameStatusResponse);
+}
+
+message Game {
+    uint64 id = 1;
+    string name = 2;
+    string description = 3;
+    string type = 4;
+    string status = 5;
+    double min_bet = 6;
+    double max_bet = 7;
+    google.protobuf.Timestamp start_time = 8;
+    google.protobuf.Timestamp end_time = 9;
+    google.protobuf.Timestamp created_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
+}
+
+message CreateGameRequest {
+    string name = 1;
+    string description = 2;
+    string type = 3;
+    double min_bet = 4;
+    double max_bet = 5;
+    google.protobuf.Timestamp start_time = 6;
+    google.protobuf.Timestamp end_time = 7;
+}
+
+message CreateGameResponse {
+    Game game = 1;
+}
+
+message GetGameRequest {
+    uint64 id = 1;
+}
+
+message GetGameResponse {
+    Game game = 1;
+}
+
+message GetGamesRequest {}
+
+message GetGamesResponse {
+    repeated Game games = 1;
+}
+
+message GetGamesByTypeRequest {
+    string type = 1;
+}
+
+message GetGamesByTypeResponse {
+    repeated Game games = 1;
+}
+
+message GetActiveGamesRequest {}
+
+message GetActiveGamesResponse {
+    repeated Game games = 1;
+}
+
+message UpdateGameRequest {
+    uint64 id = 1;
+    string name = 2;
+    string description = 3;
+    string type = 4;
+    double min_bet = 5;
+    double max_bet = 6;
+    google.protobuf.Timestamp start_time = 7;
+    google.protobuf.Timestamp end_time = 8;
+}
+
+message UpdateGameResponse {
+    Game game = 1;
+}
+
+message DeleteGameRequest {
+    uint64 id = 1;
+}
+
+message DeleteGameResponse {}
+
+message UpdateGameStatusRequest {
+    uint64 id = 1;
+    string status = 2;
+}
+
+message UpdateGameStatusResponse {
+    Game game = 1;
+} 

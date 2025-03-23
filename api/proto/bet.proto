@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package bet;
+
+option go_package = "proto/betpb";
+
+import "google/protobuf/timestamp.proto";
+
+service BetService {
+    rpc CreateBet(CreateBetRequest) returns (CreateBetResponse);
+    rpc GetBet(GetBetRequest) returns (GetBetResponse);
+    rpc GetBets(GetBetsRequest) returns (GetBetsResponse);
+    rpc GetBetsByUserID(GetBetsByUserIDRequest) returns (GetBetsByUserIDResponse);
+    rpc GetBetsByGameID(GetBetsByGameIDRequest) returns (GetBetsByGameIDResponse);
+    rpc UpdateBetStatus(UpdateBetStatusRequest) returns (UpdateBetStatusResponse);
+    rpc ProcessBetResult(ProcessBetResultRequest) returns (ProcessBetResultResponse);
+    rpc GetUserTotalBets(GetUserTotalBetsRequest) returns (GetUserTotalBetsResponse);
+    rpc GetUserTotalBetsByGameID(GetUserTotalBetsByGameIDRequest) returns (GetUserTotalBetsByGameIDResponse);
+    rpc GetUserTotalWinnings(GetUserTotalWinningsRequest) returns (GetUserTotalWinningsResponse);
+}
+
+message Bet {
+    uint64 id = 1;
+    uint64 user_id = 2;
+    uint64 game_id = 3;
+    double amount = 4;
+    string status = 5;
+    string result = 6;
+    double potential_win = 7;
+    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
+}
+
+message CreateBetRequest {
+    uint64 user_id = 1;
+    uint64 game_id = 2;
+    double amount = 3;
+}
+
+message CreateBetResponse {
+    Bet bet = 1;
+}
+
+message GetBetRequest {
+    uint64 id = 1;
+}
+
+message GetBetResponse {
+    Bet bet = 1;
+}
+
+message GetBetsRequest {}
+
+message GetBetsResponse {
+    repeated Bet bets = 1;
+}
+
+message GetBetsByUserIDRequest {
+    uint64 user_id = 1;
+}
+
+message GetBetsByUserIDResponse {
+    repeated Bet bets = 1;
+}
+
+message GetBetsByGameIDRequest {
+    uint64 game_id = 1;
+}
+
+message GetBetsByGameIDResponse {
+    repeated Bet bets = 1;
+}
+
+message UpdateBetStatusRequest {
+    uint64 id = 1;
+    string status = 2;
+}
+
+message UpdateBetStatusResponse {
+    Bet bet = 1;
+}
+
+message ProcessBetResultRequest {
+    uint64 id = 1;
+    string result = 2;
+}
+
+message ProcessBetResultResponse {
+    Bet bet = 1;
+}
+
+message GetUserTotalBetsRequest {
+    uint64 user_id = 1;
+}
+
+message GetUserTotalBetsResponse {
+    int32 total = 1;
+}
+
+message GetUserTotalBetsByGameIDRequest {
+    uint64 user_id = 1;
+    uint64 game_id = 2;
+}
+
+message GetUserTotalBetsByGameIDResponse {
+    int32 total = 1;
+}
+
+message GetUserTotalWinningsRequest {
+    uint64 user_id = 1;
+}
+
+message GetUserTotalWinningsResponse {
+    double total = 1;
+} 
