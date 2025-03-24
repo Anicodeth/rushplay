@@ -17,6 +17,7 @@ service TransactionService {
     rpc GetTransactionByReferenceID(GetTransactionByReferenceIDRequest) returns (GetTransactionByReferenceIDResponse);
     rpc ProcessDeposit(ProcessDepositRequest) returns (ProcessDepositResponse);
     rpc ProcessWithdrawal(ProcessWithdrawalRequest) returns (ProcessWithdrawalResponse);
+    rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse);
 }
 
 message Transaction {
@@ -113,4 +114,12 @@ message ProcessWithdrawalRequest {
 
 message ProcessWithdrawalResponse {
     Transaction transaction = 1;
+}
+
+message GetUserBalanceRequest {
+    uint64 user_id = 1;
+}
+
+message GetUserBalanceResponse {
+    double balance = 1;
 } 

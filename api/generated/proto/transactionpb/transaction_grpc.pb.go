@@ -29,6 +29,7 @@ const (
 	TransactionService_GetTransactionByReferenceID_FullMethodName = "/transaction.TransactionService/GetTransactionByReferenceID"
 	TransactionService_ProcessDeposit_FullMethodName              = "/transaction.TransactionService/ProcessDeposit"
 	TransactionService_ProcessWithdrawal_FullMethodName           = "/transaction.TransactionService/ProcessWithdrawal"
+	TransactionService_GetUserBalance_FullMethodName              = "/transaction.TransactionService/GetUserBalance"
 )
 
 // TransactionServiceClient is the client API for TransactionService service.
@@ -45,6 +46,7 @@ type TransactionServiceClient interface {
 	GetTransactionByReferenceID(ctx context.Context, in *GetTransactionByReferenceIDRequest, opts ...grpc.CallOption) (*GetTransactionByReferenceIDResponse, error)
 	ProcessDeposit(ctx context.Context, in *ProcessDepositRequest, opts ...grpc.CallOption) (*ProcessDepositResponse, error)
 	ProcessWithdrawal(ctx context.Context, in *ProcessWithdrawalRequest, opts ...grpc.CallOption) (*ProcessWithdrawalResponse, error)
+	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
 }
 
 type transactionServiceClient struct {
@@ -155,6 +157,16 @@ func (c *transactionServiceClient) ProcessWithdrawal(ctx context.Context, in *Pr
 	return out, nil
 }
 
+func (c *transactionServiceClient) GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserBalanceResponse)
+	err := c.cc.Invoke(ctx, TransactionService_GetUserBalance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TransactionServiceServer is the server API for TransactionService service.
 // All implementations must embed UnimplementedTransactionServiceServer
 // for forward compatibility.
@@ -169,6 +181,7 @@ type TransactionServiceServer interface {
 	GetTransactionByReferenceID(context.Context, *GetTransactionByReferenceIDRequest) (*GetTransactionByReferenceIDResponse, error)
 	ProcessDeposit(context.Context, *ProcessDepositRequest) (*ProcessDepositResponse, error)
 	ProcessWithdrawal(context.Context, *ProcessWithdrawalRequest) (*ProcessWithdrawalResponse, error)
+	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
 	mustEmbedUnimplementedTransactionServiceServer()
 }
 
@@ -208,6 +221,9 @@ func (UnimplementedTransactionServiceServer) ProcessDeposit(context.Context, *Pr
 }
 func (UnimplementedTransactionServiceServer) ProcessWithdrawal(context.Context, *ProcessWithdrawalRequest) (*ProcessWithdrawalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProcessWithdrawal not implemented")
+}
+func (UnimplementedTransactionServiceServer) GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
 }
 func (UnimplementedTransactionServiceServer) mustEmbedUnimplementedTransactionServiceServer() {}
 func (UnimplementedTransactionServiceServer) testEmbeddedByValue()                            {}
@@ -410,6 +426,24 @@ func _TransactionService_ProcessWithdrawal_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TransactionService_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransactionServiceServer).GetUserBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TransactionService_GetUserBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransactionServiceServer).GetUserBalance(ctx, req.(*GetUserBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TransactionService_ServiceDesc is the grpc.ServiceDesc for TransactionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -456,6 +490,10 @@ var TransactionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ProcessWithdrawal",
 			Handler:    _TransactionService_ProcessWithdrawal_Handler,
+		},
+		{
+			MethodName: "GetUserBalance",
+			Handler:    _TransactionService_GetUserBalance_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
