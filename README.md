@@ -1,1 +1,1 @@
-Clean Go Online gaming Application
+Clean Go Online gaming Application, Grpc layer
